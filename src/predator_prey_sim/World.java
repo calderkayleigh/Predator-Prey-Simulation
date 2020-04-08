@@ -51,10 +51,12 @@ public class World {
 			predators.add(new Predator(width, height));
 		}
 		//add prey
+		/*
 		for(int i = 0; i<numPrey; i++)
 		{
 			prey.add(new Prey(width, height, this));
 		}
+		*/
 		
 	}
 	
