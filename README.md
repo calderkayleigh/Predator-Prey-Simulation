@@ -12,13 +12,17 @@ This code generates a predator and prey simulation using a GUI window based on a
 PPSim holds the main method of the program. The main method creates a new predator prey simulation (PPSim). This class holds many of the GUI features including creating the GUI window, keyboard commands and mouse commands. Within this class is an infinite loop that updates the rules for the world, draws predators and prey to the screen, and controls how quickly the simulation will run. This class additionally creates a new world with a given width, height, initial number of prey, and initial number of predators, calling on the World class to execute this function. 
 
 **World**
+	
 	The world class holds the elements of the world that the predator and prey live in. It uses array lists to keep track of new prey and predators that are introduced in the world. It also uses a function called “populate” to add predators and prey into the world. Another main function of this class is that it updates all of the actions by the predators and prey within the update method. This method holds array lists of animals to remove and to add. When the simulation updates, it checks if predators reproduced, died naturally, or moved within the world. For prey, it checks if they reproduced (and if so, mutated), if they were eaten by predators, if they died naturally, or if they simply moved within the world. This class also draws the predators to the screen using functions defined in the DotPanel class. In addition, it controls changing the canvas’s background and resetting the simulation. The simulation can be reset using the key controls created in PPSim. 
 
 **Animal**
+	
 	The animal class defines a general functionality for all animals that live within this world. It outlines functions so that animals can change directions, move in general, reproduce, and die naturally. Animal is the parent class for the Predator and Prey classes. 
 
 **Predator**
+	
 	The Predator class is a child class of the Animal class. This means that it inherits the features from the Animal class, but also has functions that are specific to this type of species. For example, Predators move in a different way than Prey. If a Predator sees a Prey within 15 squares of the direction it is facing, it will follow that Prey. If a Predator is horizontally or vertically next to a Prey, it will eat it. Predators are represented by red squares. 
 
 **Prey**
+	
 	Similar to the Predator class, the Prey class is also a child of the Animal class. Specific characteristics of Prey include their ability to mutate, meaning that they have a child who is represented by a different color and how they run in the opposite direction of a Predator if they see it within 10 squares of themselves. Prey are represented by randomly colored circles, and for this reason, are able to camouflage if their distinct color matches the canvas color. If this is so, they are unable to be eaten by a Predator.
