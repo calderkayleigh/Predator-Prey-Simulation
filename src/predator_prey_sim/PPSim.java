@@ -1,11 +1,16 @@
 package predator_prey_sim;
 
 import util.DotPanel;
+import util.Helper;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 
 /*
@@ -18,7 +23,10 @@ import javax.swing.JFrame;
  * We will add additional rules for dealing with sighting or running into prey later.
  */
 
-public class PPSim extends JFrame {
+public class PPSim extends JFrame implements KeyListener, MouseListener {
+
+	/* Create our city */
+	World ppWorld = new World(MAX_X, MAX_Y, NUM_PREY, NUM_PREDATORS);
 
 	private static final long serialVersionUID = -5176170979783243427L;
 
@@ -41,7 +49,7 @@ public class PPSim extends JFrame {
 	 */
 	public PPSim() {
 		this.setSize(MAX_X * DOT_SIZE, MAX_Y * DOT_SIZE);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setTitle("Predator Prey World");
 
@@ -60,10 +68,13 @@ public class PPSim extends JFrame {
 		dp.init();
 		dp.clear();
 		dp.setPenColor(Color.red);
+		//set the window to be visible
 		this.setVisible(true);
 
-		/* Create our city */
-		World ppworld = new World(MAX_X, MAX_Y, NUM_PREY, NUM_PREDATORS);
+		//add key and mouse listeners for the keyboard and mouse commands
+		this.addKeyListener(this);
+		dp.addMouseListener(this);
+
 
 		/* This is the Run Loop (aka "simulation loop" or "game loop")
 		 * It will loop forever, first updating the state of the world
@@ -77,18 +88,67 @@ public class PPSim extends JFrame {
 		while(true)
 		{
 			// Run update rules for world and everything in it
-			ppworld.update();
+			ppWorld.update();
 			// Draw to screen and then refresh
-			ppworld.draw();
-			dp.repaintAndSleep(30);
+			ppWorld.draw();
+			dp.repaintAndSleep(500);
 
 		}
 	}
 
-	public static void main(String[] args) {
+
+	/**Key Commands*/
+
+	//declare keyCommands. Invoked when a key has been pressed
+	public void keyPressed(KeyEvent e)
+	{
+		//if space is pressed, change the canvas
+		if(e.getKeyCode() == KeyEvent.VK_SPACE)
+		{
+			ppWorld.changeBackground();
+		}
+
+		//if enter is pressed, reset the simulation
+		if(e.getKeyCode() == KeyEvent.VK_ENTER);
+		{
+			ppWorld.resetSimulation();
+
+		}
+		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+		{
+			ppWorld.resetSimulationAlternate();
+		}
+	}
+
+	//invoked when the key has been released
+	public void keyReleased(KeyEvent e) {}
+	//invoked when the key has been typed
+	public void keyTyped(KeyEvent e) {}
+
+	/**Mouse Commands*/
+
+	//invoked when a mouse has been pressed and released. Add prey to that location.
+	public void mouseClicked(MouseEvent e)
+	{
+		ppWorld.addPrey(e.getX() / DOT_SIZE, e.getY() / DOT_SIZE );
+	}
+
+	//invoked when a mouse has been pressed on a component
+	public void mousePressed(MouseEvent e) {}
+	//invoked when a mouse has been released on a component
+	public void mouseReleased(MouseEvent e) {}
+	//invoked when a mouse has enters a component
+	public void mouseEntered(MouseEvent e) {}
+	//invoked when a mouse exits a component
+	public void mouseExited(MouseEvent e) {}
+
+
+	public static void main(String[] args)
+	{
+		//Set the seed
+		//Helper.setSeed(50);
 		/* Create a new GUI window  */
 		new PPSim();
 	}
 
 }
-
