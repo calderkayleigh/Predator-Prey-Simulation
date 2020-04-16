@@ -4,8 +4,6 @@ import java.awt.*;
 
 public class Predator extends Animal
 {
-    int eatenDistance = 1;
-    int moveDistance = 1;
 
     public Predator (int width, int height)
     {
@@ -17,6 +15,8 @@ public class Predator extends Animal
         deathRate = 1;
         reproductionRate = 1;
         visualDistance = 15;
+        moveDistance = 1;
+        eatenDistance = 1;
     }
 
     //update predator position
@@ -56,7 +56,7 @@ public class Predator extends Animal
 
     public boolean checkDistanceBetweenPredatorsAndPrey(Prey p)
     {
-        //check the distance if the prey does not blend into the canvas
+        //check the distance if the prey does not blend into the canvas for each direction
         if(!p.checkIfColorIsSame(World.canvasColor))
         {
             if(direction == 0)
@@ -96,6 +96,7 @@ public class Predator extends Animal
                 }
             }
         }
+        //otherwise, the predator does not see a prey, so return false
         return false;
     }
 
