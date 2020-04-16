@@ -20,6 +20,8 @@ public class Animal
     int animalY;
     int boundaryX;
     int boundaryY;
+    int moveDistance;
+    int eatenDistance;
 
     //define color
     Color color;
