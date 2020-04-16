@@ -4,6 +4,7 @@ import util.Helper;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class World
@@ -69,6 +70,7 @@ public class World
 	/**
 	 * Updates the state of the world for a time step.
 	 */
+	//update the world. Add and remove animals
 	public void update()
 	{
 		// Move predators, prey, etc
@@ -144,14 +146,9 @@ public class World
 				predators.remove(a);
 			}
 			//if the animal is a prey, remove the prey
-			if(a instanceof Prey)
+			else if(a instanceof Prey)
 			{
 				prey.remove(a);
-			}
-			//if the animal is not one of these options, there is an error
-			else
-			{
-				System.out.println("Error in the code");
 			}
 		}
 
@@ -164,14 +161,9 @@ public class World
 				predators.add((Predator) a);
 			}
 			//otherwise, add prey
-			if (a instanceof Prey)
+			else if(a instanceof Prey)
 			{
 				prey.add((Prey) a);
-			}
-			//since we have not declared any other animal types, something other than a prey or predator will be an error
-			else
-			{
-				System.out.println("Error with code");
 			}
 		}
 
@@ -211,10 +203,15 @@ public class World
 
 	}
 
-	//add prey to the world for the mouse command
+	//add prey to the world for the mouse command and button
 	void addPrey(int animalX, int animalY)
 	{
 		prey.add(new Prey(width, height, animalX, animalY, this));
+	}
+	//add predators for the button command
+	void addPredators(int width, int height)
+	{
+		predators.add(new Predator(width, height));
 	}
 
 	//reset simulation
@@ -233,7 +230,13 @@ public class World
 		predators = new ArrayList();
 		prey = new ArrayList();
 
-		populate(15, 2);
+		Scanner scan = new Scanner(System.in);
+		System.out.println("How many prey would you like in the simulation? Please enter a positive integer");
+		int numPrey = scan.nextInt();
+		System.out.println("How many predators would you like in the simulation? Please enter a positive integer");
+		int numPredators = scan.nextInt();
+		populate(numPrey, numPredators);
 	}
 
 }
+
