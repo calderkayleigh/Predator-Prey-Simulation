@@ -1,15 +1,8 @@
 package predator_prey_sim;
 
 import util.DotPanel;
-import util.Helper;
-
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 
@@ -23,7 +16,7 @@ import javax.swing.*;
  * We will add additional rules for dealing with sighting or running into prey later.
  */
 
-public class PPSim extends JFrame implements KeyListener, MouseListener {
+public class PPSim extends JFrame implements KeyListener, MouseListener, ActionListener {
 
 	/* Create our city */
 	World ppWorld = new World(MAX_X, MAX_Y, NUM_PREY, NUM_PREDATORS);
@@ -32,6 +25,7 @@ public class PPSim extends JFrame implements KeyListener, MouseListener {
 
 	/** The Dot Panel object you will draw to */
 	protected static DotPanel dp;
+	//protected static DotPanel graveyard;
 
 	/* Define constants using static final variables */
 	public static final int MAX_X = 100;
@@ -40,6 +34,9 @@ public class PPSim extends JFrame implements KeyListener, MouseListener {
 	private static final int NUM_PREY = 10;
 	private static final int NUM_PREDATORS = 5;
 
+	//add buttons for adding prey and predators
+	JButton predatorButton = new JButton("Add Predator");
+	JButton preyButton = new JButton("Add Prey");
 
 
 	/*
@@ -58,7 +55,21 @@ public class PPSim extends JFrame implements KeyListener, MouseListener {
 
 		/* Add the panel to the frame */
 		Container cPane = this.getContentPane();
+
+		//add a layout
+		cPane.setLayout(new BorderLayout());
 		cPane.add(dp);
+
+		//add a button functionality for predators
+		cPane.add(predatorButton, BorderLayout.SOUTH);
+		predatorButton.addActionListener(this);
+		predatorButton.setFocusable(false);
+
+
+		//add button functionality for prey
+		cPane.add(preyButton, BorderLayout.NORTH);
+		preyButton.addActionListener(this);
+		preyButton.setFocusable(false);
 
 		/* Initialize the DotPanel canvas:
 		 * You CANNOT draw to the panel BEFORE this code is called.
@@ -102,22 +113,30 @@ public class PPSim extends JFrame implements KeyListener, MouseListener {
 	//declare keyCommands. Invoked when a key has been pressed
 	public void keyPressed(KeyEvent e)
 	{
-		//if space is pressed, change the canvas
-		if(e.getKeyCode() == KeyEvent.VK_SPACE)
+		//resets simulation if you hit enter
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
-			ppWorld.changeBackground();
-		}
-
-		//if enter is pressed, reset the simulation
-		if(e.getKeyCode() == KeyEvent.VK_ENTER);
-		{
+			//System.out.println("Simulation was reset with 5 predators and 10 prey");
 			ppWorld.resetSimulation();
-
 		}
-		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+		//resets simulation with different numbers if you hit backspace
+		else if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 		{
+			//System.out.println("Simulation was reset with 2 predators and 15 prey");
 			ppWorld.resetSimulationAlternate();
 		}
+		//changes background if you hit space
+		else if(e.getKeyCode() == KeyEvent.VK_SPACE)
+		{
+			//System.out.println("Simulation background was randomly changed");
+			ppWorld.changeBackground();
+		}
+		//stops the code from running if you hit escape
+		else if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		{
+			System.exit(1);
+		}
+
 	}
 
 	//invoked when the key has been released
@@ -130,6 +149,7 @@ public class PPSim extends JFrame implements KeyListener, MouseListener {
 	//invoked when a mouse has been pressed and released. Add prey to that location.
 	public void mouseClicked(MouseEvent e)
 	{
+		//System.out.println("Prey added through mouse command");
 		ppWorld.addPrey(e.getX() / DOT_SIZE, e.getY() / DOT_SIZE );
 	}
 
@@ -142,6 +162,20 @@ public class PPSim extends JFrame implements KeyListener, MouseListener {
 	//invoked when a mouse exits a component
 	public void mouseExited(MouseEvent e) {}
 
+	//add predators from the top left corner
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == preyButton)
+		{
+			//System.out.println("Prey added through button command");
+			ppWorld.addPrey(5, 5);
+		}
+		else if(e.getSource() == predatorButton)
+		{
+			//System.out.println("Predator added through button command");
+			ppWorld.addPredators(5, 5);
+		}
+	}
 
 	public static void main(String[] args)
 	{
@@ -150,5 +184,6 @@ public class PPSim extends JFrame implements KeyListener, MouseListener {
 		/* Create a new GUI window  */
 		new PPSim();
 	}
-
 }
+
+
