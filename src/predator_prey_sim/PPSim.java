@@ -179,8 +179,6 @@ public class PPSim extends JFrame implements KeyListener, MouseListener, ActionL
 
 	public static void main(String[] args)
 	{
-		//Set the seed
-		//Helper.setSeed(50);
 		/* Create a new GUI window  */
 		new PPSim();
 	}
