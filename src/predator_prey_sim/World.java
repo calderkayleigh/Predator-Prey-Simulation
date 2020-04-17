@@ -224,7 +224,7 @@ public class World
 		//populate the initial simulation with 10 prey and 5 predators
 		populate(10,5);
 	}
-	//alternative simulation reset with less predators
+	//alternative simulation reset that allows the user to input prey and predators
 	void resetSimulationAlternate()
 	{
 		predators = new ArrayList();
